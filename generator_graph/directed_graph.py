@@ -1,4 +1,5 @@
 import random
+from typing import Literal
 
 from generator_graph.draw import to_graph
 from generator_graph.undirected_graph import (
@@ -55,7 +56,8 @@ def _directing_edges(
 
 
 def create_random_graph_directed(
-  vertex_count: int, min_weight: int, max_weight: int
+  vertex_count: int, min_weight: int, max_weight: int,
+  density: Literal[1, 2, 3]
 ) -> tuple[dict[int, list[tuple[int, int]]], dict[tuple[int, int], int], int]:
   points = create_points(vertex_count)
   edges = create_planar_edges(points)
@@ -63,7 +65,7 @@ def create_random_graph_directed(
   vertices = list(adjacency_unweighted.keys())
   start = random.choice(vertices)
   dfs_edges, order = _dfs(adjacency_unweighted, start)
-  finally_edges = delete_edges(edges, edges_from_adjacency(dfs_edges), 2)
+  finally_edges = delete_edges(edges, edges_from_adjacency(dfs_edges), density)
   order_edges = _directing_edges(finally_edges, order)
   edges_with_weight = assign_weights(order_edges, min_weight, max_weight)
   adjacency_weighted = build_weighted_adjacency(edges_with_weight, True)

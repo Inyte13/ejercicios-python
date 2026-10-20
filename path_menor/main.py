@@ -6,7 +6,7 @@ from path_menor.dijkstra import dijkstra
 
 def main():
   adjacency_weighted, edges_with_weight, start = create_random_graph_directed(
-    8, 1, 10
+    8, 1, 10, 3
   )
   cost_bellman, previous_bellman, has_cycles = bellman_ford(
     start, edges_with_weight

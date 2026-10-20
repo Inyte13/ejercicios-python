@@ -129,12 +129,13 @@ def create_random_graph_undirected(
   vertex_count: int,
   min_weight: int,
   max_weight: int,
+  density: Literal[1, 2, 3]
 ) -> tuple[dict[int, list[tuple[int, int]]], dict[tuple[int, int], int], int]:
   points = create_points(vertex_count)
   edges = create_planar_edges(points)
   adjacency_unweighted = build_unweighted_adjacency(edges)
   dfs_edges = _dfs(adjacency_unweighted)
-  finally_edges = delete_edges(edges, edges_from_adjacency(dfs_edges), 2)
+  finally_edges = delete_edges(edges, edges_from_adjacency(dfs_edges), density)
   edges_with_weight = assign_weights(finally_edges, min_weight, max_weight)
   adjacency_weighted = build_weighted_adjacency(edges_with_weight, False)
   vertices = list(adjacency_unweighted.keys())
